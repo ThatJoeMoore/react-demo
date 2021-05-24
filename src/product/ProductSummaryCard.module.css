@@ -1,0 +1,44 @@
+.root {
+  --card-height: var(--product-summary-card-height, 150px);
+  --border-width: 1px;
+  --thumbnail-aspect-ratio: calc(4 / 3);
+
+  box-sizing: border-box;
+  height: var(--card-height);
+  border: var(--border-width) solid darkgray;
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: 8px;
+  gap: 12px;
+  grid-template-areas:
+    "thumbnail title"
+    "thumbnail description"
+    "thumbnail price";
+}
+.root.highlightable:hover {
+  background-color: lightseagreen;
+}
+
+.thumbnail {
+  --thumbnail-height: calc(var(--card-height) - 2 * var(--border-width));
+  box-sizing: border-box;
+  height: var(--thumbnail-height);
+  width: calc(var(--thumbnail-height) * var(--thumbnail-aspect-ratio));
+
+  grid-area: thumbnail;
+  border-radius: 16px;
+}
+
+.title {
+  grid-area: title;
+}
+
+.shortDesc {
+  grid-area: description;
+}
+
+.price {
+  grid-area: price;
+}

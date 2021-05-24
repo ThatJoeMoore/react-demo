@@ -1,23 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import styles from "./App.module.css";
+import ProductSummaryCard from "./product/ProductSummaryCard.js";
 
 function App() {
+  const [productList, setProductList] = useState([]);
+
+  useEffect(() => {
+    fetch(`/api/products?q=Practical&limit=10`)
+      .then((r) => r.json())
+      .then(
+        (result) => {
+          console.log("result", result);
+          setProductList(result);
+        },
+        (error) => {
+          console.log("error", error);
+        }
+      );
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.root}>
+      <div className={styles.search}>
+        <label>
+          Search
+          <input value="Practical" type="text" />
+        </label>
+      </div>
+      <div className={styles.productList}>
+        {productList.map((product) => (
+          <ProductSummaryCard
+            className={styles.productCard}
+            name={product.name}
+            shortDescription={product.short_desc}
+            thumbnailImage={product.images.thumbnail}
+            price={"$" + product.price.usd}
+            highlightable
+          />
+        ))}
+      </div>
     </div>
   );
 }
